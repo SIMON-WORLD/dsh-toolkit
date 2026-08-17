@@ -1,0 +1,14 @@
+{
+  "name": "@simon-world/dsh-at-file",
+  "version": "0.1.0",
+  "description": "@ 文件引用插件（DSH Web UI composer 扩展）",
+  "dsh": {
+    "bundle": {
+      "entry": "src/index.ts"
+    }
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  }
+}

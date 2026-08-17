@@ -1,0 +1,14 @@
+{
+  "name": "@simon-world/dsh-vision-bridge",
+  "version": "0.1.0",
+  "description": "视觉桥插件（图片 → VLM → 文本回注，复用 codex-free-vision-bridge 上游）",
+  "dsh": {
+    "bundle": {
+      "entry": "src/index.ts"
+    }
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  }
+}

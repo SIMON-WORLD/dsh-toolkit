@@ -1,0 +1,14 @@
+{
+  "name": "dsh-toolkit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DeepSeek Harness 好用化工具箱：doctor / at-file / cost-dashboard / vision-bridge / docs",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "scripts": {
+    "doctor": "node packages/dsh-doctor/src/index.mjs",
+    "doctor:win": "powershell -ExecutionPolicy Bypass -File packages/dsh-doctor/src/dsh-doctor.ps1"
+  }
+}

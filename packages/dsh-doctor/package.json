@@ -1,0 +1,15 @@
+{
+  "name": "@simon-world/dsh-doctor",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 环境体检 CLI（Node 版）",
+  "type": "module",
+  "main": "src/index.mjs",
+  "bin": {
+    "dsh-doctor": "src/index.mjs"
+  },
+  "engines": {
+    "node": ">=22.19"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
