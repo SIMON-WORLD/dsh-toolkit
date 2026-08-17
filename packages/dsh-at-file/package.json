@@ -18,7 +18,7 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/dsh-tools": "^0.0.1-rc.1"
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6"
   },
   "dsh": {
     "bundle": {
@@ -36,7 +36,7 @@
   "files": ["lib", "src", "cordis.patch.yml", "README.md"],
   "devDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/dsh-tools": "^0.0.1-rc.1",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
     "@types/node": "^26.0.0",
     "typescript": "^5.6.0"
   },
@@ -44,3 +44,4 @@
     "registry": "https://registry.npmjs.org/"
   }
 }
+

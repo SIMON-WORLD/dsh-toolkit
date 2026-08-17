@@ -18,3 +18,5 @@ jobs:
         run: node --test tests/*.test.mjs
       - name: Run dsh-doctor (sanity)
         run: node packages/dsh-doctor/src/index.mjs
+      - name: Verify plugin format (dsh.bundle + lib entry)
+        run: node scripts/verify-format.mjs
