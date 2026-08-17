@@ -1,0 +1,12 @@
+{
+  "name": "dsh-toolkit-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "test:at-file": "node --test tests/at-file.test.mjs",
+    "test:cost": "node --test tests/cost-dashboard.test.mjs",
+    "test:vision": "node --test tests/vision-bridge.test.mjs",
+    "test:doctor": "node --test tests/doctor.test.mjs"
+  }
+}

@@ -9,6 +9,7 @@
   },
   "scripts": {
     "doctor": "node packages/dsh-doctor/src/index.mjs",
-    "doctor:win": "powershell -ExecutionPolicy Bypass -File packages/dsh-doctor/src/dsh-doctor.ps1"
+    "doctor:win": "powershell -ExecutionPolicy Bypass -File packages/dsh-doctor/src/dsh-doctor.ps1",
+    "test": "node --test tests/*.test.mjs"
   }
 }
