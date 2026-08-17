@@ -1,15 +1,46 @@
 {
-  "name": "@simon-world/dsh-cost-dashboard",
+  "name": "dsh-cost-dashboard",
+  "description": "成本仪表盘工具：会话 token 与费用估算（增量统计，防二次方退化）",
   "version": "0.1.0",
-  "description": "成本仪表盘插件（会话/日/月费用 + 预算告警）",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SIMON-WORLD/dsh-toolkit.git"
+  },
+  "keywords": ["deepseek", "harness", "dsh", "dsh-plugin", "cost", "token"],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "check": "npm run typecheck"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.0.1-rc.1"
+  },
   "dsh": {
     "bundle": {
-      "entry": "src/index.ts"
+      "patch": "./cordis.patch.yml"
     }
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=22.19"
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
   },
-  "type": "module"
+  "files": ["lib", "src", "cordis.patch.yml", "README.md"],
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.0.1-rc.1",
+    "@types/node": "^26.0.0",
+    "typescript": "^5.6.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

@@ -1,45 +1,64 @@
 /**
- * dsh-at-file — @ 文件引用插件
- * 痛点：P106 家族 12 帖（不能 @ 选择文件）
- *
- * ⚠️ 骨架版：以下为最小可理解实现，需在 DSH Web 前端扩展点环境下验证。
- * 实现思路基于 dsh-web-ui composer 扩展 + 社区 dsh-at-file 参考。
+ * dsh-at-file — @ 文件引用工具
+ * 痛点：P106 家族 12 帖（#146 #195 #234 #261 #337 #360 #368 #464 #550 #659）
+ * 标准 DSH 插件格式：cordis.patch.yml 挂载 + defineTool 注册。
  */
-import fs from 'node:fs';
-import path from 'node:path';
+import { readFileSync, statSync } from 'node:fs'
+import { resolve, isAbsolute } from 'node:path'
+import { defineTool } from '@deepseek-ai/dsh-tools'
 
-export default class AtFilePlugin {
-  static inject = ['tools'];
+export const name = 'dsh-at-file'
+export const inject = ['tools']
 
-  constructor(ctx) {
-    // 注册 @ 触发工具：模型/前端可调用，把文件内容注入上下文
-    ctx.tool('at_file_read', {
-      description: '读取工作区内文件内容并注入上下文（@ 引用文件）',
-      arguments: {
+const MAX_BYTES = 50 * 1024 // 大文件截断阈值
+// 工作区根在 execute 时动态读取（import 时环境变量可能尚未设置）
+function workspaceRoot() {
+  return process.env.DSH_WORKSPACE || process.cwd()
+}
+
+export function apply(ctx: any) {
+  ctx.tools.register(defineTool({
+    name: 'at_file_read',
+    description: '读取工作区内文件内容并注入上下文（@ 引用文件）。返回文件内容供模型直接使用；超过 50KB 自动截断并标记 truncated。',
+    parameters: {
+      path: {
+        type: 'string',
+        required: true,
+        description: '相对工作区的文件路径，例如 src/index.ts',
+      },
+    },
+    output: {
+      schema: {
         type: 'object',
         properties: {
-          path: { type: 'string', description: '相对工作区的文件路径' },
+          path: { type: 'string' },
+          content: { type: 'string' },
+          truncated: { type: 'boolean' },
+          error: { type: 'string' },
         },
-        required: ['path'],
+        additionalProperties: false,
       },
-    }, async ({ path: relPath }, session) => {
-      const root = session?.header?.cwd;
-      if (!root) throw new Error('no workspace cwd in session');
-      const abs = path.resolve(root, relPath);
-      // 防目录穿越
-      if (!abs.startsWith(path.resolve(root))) {
-        return { error: `path escapes workspace: ${relPath}` };
+      render: (_args: unknown, value: any) => {
+        if (value.error) return [{ type: 'text', text: `[at_file_read] ${value.error}` }]
+        return [{ type: 'text', text: `[at_file_read] ${value.path}${value.truncated ? ' (truncated >50KB)' : ''}\n\n${value.content}` }]
+      },
+    },
+    execute: async (args: any) => {
+      const ws = workspaceRoot()
+      const abs = isAbsolute(args.path) ? args.path : resolve(ws, args.path)
+      if (!abs.startsWith(resolve(ws))) return { error: `path escapes workspace: ${args.path}` }
+      try {
+        const stat = statSync(abs)
+        if (!stat.isFile()) return { error: `not a file: ${args.path}` }
+        const content = readFileSync(abs, 'utf8')
+        if (stat.size > MAX_BYTES) {
+          return { path: args.path, content: content.slice(0, MAX_BYTES), truncated: true }
+        }
+        return { path: args.path, content }
+      } catch (e) {
+        return { error: `cannot read ${args.path}: ${e instanceof Error ? e.message : String(e)}` }
       }
-      const stat = fs.statSync(abs);
-      if (stat.size > 50 * 1024) {
-        // 大文件提示截断（配合 tokenless 思路）
-        const head = fs.readFileSync(abs, 'utf8').slice(0, 50 * 1024);
-        return { truncated: true, path: relPath, content: head };
-      }
-      return { path: relPath, content: fs.readFileSync(abs, 'utf8') };
-    });
-
-    // 前端提示：composer 输入框 @ 触发由 UI 层插件提供（见 README 计划）
-    // TODO(v0.2): 注册 UI 侧 composer 扩展，@ 弹出文件树
-  }
+    },
+  }))
 }
+

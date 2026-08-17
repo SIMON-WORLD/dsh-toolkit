@@ -1,6 +1,6 @@
 /**
- * 测试工具：mock DSH 插件上下文（ctx）
- * 三个插件的单元测试共用；不依赖真实 DSH 运行。
+ * 测试工具：mock DSH 插件上下文（ctx），适配 defineTool 注册结构
+ * 三个插件的单元测试共用；加载编译后的 lib/index.js 验证真实产物。
  */
 import assert from 'node:assert/strict';
 
@@ -8,8 +8,12 @@ export function createMockCtx() {
   const tools = new Map();
   const events = [];
   const ctx = {
-    tool(name, schema, handler) {
-      tools.set(name, { schema, handler });
+    tools: {
+      register(definition) {
+        const { name, ...rest } = definition;
+        tools.set(name, rest);
+        return () => tools.delete(name);
+      },
     },
     on(event, handler) {
       events.push({ event, handler });
@@ -17,7 +21,6 @@ export function createMockCtx() {
     http: {
       async post(url, body) {
         ctx.__lastHttp = { url, body };
-        // 默认返回一个可控的 VLM 响应，测试可覆盖
         return { choices: [{ message: { content: 'MOCK VLM DESCRIPTION' } }] };
       },
     },
@@ -27,11 +30,11 @@ export function createMockCtx() {
   return ctx;
 }
 
-/** 调用已注册工具并返回结果 */
-export async function callTool(ctx, name, args, session = { id: 'test-session', header: { cwd: process.cwd() }, model: 'deepseek-v4-flash' }) {
+/** 调用已注册工具（execute 签名：args, exec?） */
+export async function callTool(ctx, name, args = {}) {
   const t = ctx.__tools.get(name);
-  assert.ok(t, `tool ${name} not registered`);
-  return t.handler(args, session);
+  assert.ok(t, `tool ${name} not registered; have: ${[...ctx.__tools.keys()].join(', ')}`);
+  return t.execute(args, {});
 }
 
 /** 触发已注册事件 */

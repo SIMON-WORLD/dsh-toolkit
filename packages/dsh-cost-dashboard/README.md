@@ -59,3 +59,4 @@ dsh-cost-dashboard/
 ## 贡献
 
 欢迎 PR！本插件与 dsh-doctor 一起构成「体检 + 省钱」组合。
+

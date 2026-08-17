@@ -17,15 +17,15 @@ DeepSeek Harness 开源 4 天 14 万+ star，但官方明示处于开发者预�
 | 包 | 解决痛点 | 状态 |
 |---|---|---|
 | [`packages/dsh-doctor`](packages/dsh-doctor) | 环境问题无统一诊断（#649/#1719 46 评论） | 🟢 v0.1 可用（实测 9/9） |
-| [`packages/dsh-at-file`](packages/dsh-at-file) | 不能 @ 选择文件（12+ 帖） | 🟢 测试通过（4/4） |
-| [`packages/dsh-cost-dashboard`](packages/dsh-cost-dashboard) | 费用无感知（#500/#318 + 峰谷涨价） | 🟢 测试通过（3/3） |
-| [`packages/dsh-vision-bridge`](packages/dsh-vision-bridge) | 纯文本模型不能看图（#474 根因） | 🟢 测试通过（3/3） |
+| [`packages/dsh-at-file`](packages/dsh-at-file) | 不能 @ 选择文件（12+ 帖） | 🟢 标准插件格式，16/16 测试通过 |
+| [`packages/dsh-cost-dashboard`](packages/dsh-cost-dashboard) | 费用无感知（#500/#318 + 峰谷涨价） | 🟢 标准插件格式，16/16 测试通过 |
+| [`packages/dsh-vision-bridge`](packages/dsh-vision-bridge) | 纯文本模型不能看图（#474 根因） | 🟢 标准插件格式，16/16 测试通过 |
 | [`docs/`](docs) | 学习成本高、文档不全（P150-P155） | 🟢 知识库 11 篇 |
 
 ## 测试
 
 ```bash
-npm test    # 13 个用例：dsh-doctor(3) + at-file(4) + cost(3) + vision(3)
+npm test    # 16 个用例：dsh-doctor(3) + at-file(5) + cost(4) + vision(4)
 ```
 
 ## 快速开始

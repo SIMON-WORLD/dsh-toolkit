@@ -5,7 +5,7 @@
 
 ## 状态
 
-🟢 **测试通过版**：核心逻辑已实现并有单元测试（4/4 通过：正常读取 / 目录穿越防护 / 大文件截断 / 工具注册）。待真实 DSH 环境集成验证。
+🟢 **标准 DSH 插件格式**（cordis.patch.yml + defineTool + 编译产物 lib/），16/16 测试通过，可用 \dsh plugin add\ 安装（尚未发布 npm，先 git 源安装）
 
 ## 测试
 
@@ -55,3 +55,4 @@ dsh-at-file/
 ## 贡献
 
 欢迎 PR！第一个可用版落地后，将提交 awesome-dsh-plugin 收录。
+
