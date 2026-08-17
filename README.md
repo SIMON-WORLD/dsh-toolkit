@@ -5,6 +5,7 @@
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![CI](https://github.com/SIMON-WORLD/dsh-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/SIMON-WORLD/dsh-toolkit/actions/workflows/ci.yml)
 [![dsh-plugin](https://img.shields.io/badge/ecosystem-dsh--plugin-orange)](https://github.com/topics/dsh-plugin)
 
 ## 这个仓库解决什么
